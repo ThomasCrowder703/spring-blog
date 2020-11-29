@@ -47,24 +47,26 @@ public class HomeController {
 
     @GetMapping("/roll-dice")
     public String promptUserGuess(Model model){
+//       Generate buttons
         List<Long> buttonOptions = new ArrayList<>();
         for(long i = 1; i <=6; i++){
             buttonOptions.add(i);
         }
         model.addAttribute("buttonOptions",buttonOptions);
 
-        Random random = new Random();
-        int upperbound = 6;
-        int randomLong = random.nextInt(upperbound);
-        model.addAttribute("randomLong", randomLong);
-
         return "/roll-dice";
     }
 
     @PostMapping("/roll-dice")
     public String postUserGuess(@RequestParam(name = "option") long option,Model model){
+        //        Generate Random Number
+        Random random = new Random();
+        int upperbound = 6;
+        int randomLong = random.nextInt(upperbound);
+        model.addAttribute("randomLong", randomLong);
+
         model.addAttribute("option", "Your guess was " + option );
-//        model.addAttribute("random", "The actual value was " + random);
+        model.addAttribute("random", "The actual value was " + randomLong );
         return "/roll-dice";
     }
 
