@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dice Roll</title>
+</head>
+<body>
+    <h1>Please guess a number!</h1>
+    <h2 th:text="${option}"></h2>
+
+    <div th:if="${option != null}">
+        <h2 th:text="${randomLong}"></h2>
+    </div>
+
+
+    <form action="/roll-dice" method="post">
+        <div th:each=" option: ${buttonOptions}">
+            <button th:text="${option}" name="option" th:value="${option}"></button>
+        </div>
+    </form>
+</body>
+</html>
