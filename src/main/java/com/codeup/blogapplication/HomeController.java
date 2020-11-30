@@ -63,10 +63,10 @@ public class HomeController {
         Random random = new Random();
         int upperbound = 6;
         int randomLong = random.nextInt(upperbound);
-        model.addAttribute("randomLong", randomLong);
 
-        model.addAttribute("option", "Your guess was " + option );
-        model.addAttribute("random", "The actual value was " + randomLong );
+
+        model.addAttribute("option", "Your guess was " + option);
+        model.addAttribute("randomLong","The actual value was " + randomLong);
         return "/roll-dice";
     }
 
