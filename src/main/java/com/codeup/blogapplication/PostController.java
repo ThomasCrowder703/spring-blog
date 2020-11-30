@@ -1,20 +1,34 @@
 package com.codeup.blogapplication;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 
 @Controller
 public class PostController {
     @GetMapping("/posts")
     @ResponseBody
-    public String index(){
+    public String index(Model model){
+        Posts postOne = new Posts("Post one", "Who knows");
+        Posts postTwo = new Posts("Post Two", "I know");
+        ArrayList<Posts> postArray = new ArrayList<>();
+        postArray.add(postOne);
+        postArray.add(postTwo);
+        model.addAttribute("thePosts", postArray);
+
         return "This will be the index page";
     }
 
-    @RequestMapping(value = "/posts/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public String singlePost(@PathVariable long id){
-        return "This is an individual post with the id of " + id;
+    @GetMapping("/posts/show")
+    public String singlePost(Model model){
+        Posts post = new Posts();
+        post.setTitle("First post");
+        post.setBody("Blah blah");
+        model.addAttribute("postHead", post.getTitle());
+        model.addAttribute("postBody", post.getBody());
+        return "/posts/show";
     }
 
     @GetMapping("/posts/create")
