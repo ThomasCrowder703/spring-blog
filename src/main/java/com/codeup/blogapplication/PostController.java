@@ -8,8 +8,7 @@ import java.util.ArrayList;
 
 @Controller
 public class PostController {
-    @GetMapping("/posts")
-    @ResponseBody
+    @GetMapping("/posts/index")
     public String index(Model model){
         Posts postOne = new Posts("Post one", "Who knows");
         Posts postTwo = new Posts("Post Two", "I know");
@@ -17,8 +16,7 @@ public class PostController {
         postArray.add(postOne);
         postArray.add(postTwo);
         model.addAttribute("thePosts", postArray);
-
-        return "This will be the index page";
+        return "posts/index";
     }
 
     @GetMapping("/posts/show")

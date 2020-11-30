@@ -14,6 +14,9 @@
         <h2 th:text="${randomLong}"></h2>
     </div>
 
+    <div th:if="${isCorrect == true}">
+        <h2>You guessed correctly!</h2>
+    </div>
 
     <form action="/roll-dice" method="post">
         <div th:each=" option: ${buttonOptions}">

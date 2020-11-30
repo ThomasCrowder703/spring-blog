@@ -60,13 +60,16 @@ public class HomeController {
     @PostMapping("/roll-dice")
     public String postUserGuess(@RequestParam(name = "option") long option,Model model){
         //        Generate Random Number
+
+//        int dice = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+
         Random random = new Random();
-        int upperbound = 6;
-        int randomLong = random.nextInt(upperbound);
+        int randomLong = random.nextInt(6) + 1; //plus one sets minimum to one
 
 
         model.addAttribute("option", "Your guess was " + option);
         model.addAttribute("randomLong","The actual value was " + randomLong);
+        model.addAttribute("isCorrect", option == randomLong);
         return "/roll-dice";
     }
 
