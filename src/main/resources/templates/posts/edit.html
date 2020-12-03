@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<nav th:include="partials/partials.html :: navbar"></nav>
+
+<main class="container">
+    <form th:action="@{/posts/{id}/edit(id=${post.id})}" th:method="POST">
+        Title:
+        <input name="title" id="name-ipt" th:value="${post.title}">
+        <br />
+        Body:
+        <input name="body" id="desc-ipt" th:value="${post.body}">
+        <br />
+        <input type="submit">
+
+        <form th:action="@{/posts/{id}/delete(id=${post.getId()})}" th:method="POST">
+            <button id="">Delete</button>
+        </form>
+    </form>
+</main>
+
+<footer th:replace="partials/partials.html :: footer"></footer>
+</body>
+</html>
