@@ -24,7 +24,11 @@ public class PostController {
 
 
 
-
+    @GetMapping("/rick-roll") //when rick-roll is typed into the url
+    public String rickRoll() {
+        // redirecting to an absolute url
+        return "redirect:https://www.youtube.com/watch?v=dQw4w9WgXcQ"; //user gets redirected to this page
+    }
 
     @GetMapping("/posts/index")
     public String index(Model model){
@@ -39,22 +43,17 @@ public class PostController {
     }
 
     @GetMapping("/posts/create")
-    public String viewCreatePost(){
+    public String viewCreatePost(Model viewModel){
+        viewModel.addAttribute("post", new Posts());
         return "posts/new"; //This is the viewing form for creating a post
     }
 
     @PostMapping("posts/create")
-    @ResponseBody
-    public String createPost(
-            @RequestParam(name = "title") String title,
-            @RequestParam(name = "body") String body
-    ){
+    public String createPost(@ModelAttribute Posts postToBeSaved){
         User user = userDao.getOne(1L);
-        Posts post = new Posts(title,body);
-        post.setOwner(user);
-        Posts dbPost = postsDao.save(post);
-
-        return "/posts/" + dbPost.getId();
+        postToBeSaved.setOwner(user);
+        Posts dbPost = postsDao.save(postToBeSaved);
+        return "redirect:/posts/index";
     }
 
     @GetMapping("/posts/{id}/edit")
@@ -64,7 +63,6 @@ public class PostController {
     }
 
     @PostMapping("/posts/{id}/edit")
-    @ResponseBody
     public String editPost(
             @PathVariable long id,
             @RequestParam(name = "title") String title,
@@ -75,12 +73,12 @@ public class PostController {
         dbPost.setBody(body);
         postsDao.save(dbPost);
 
-        return "/posts/" + dbPost.getId();
+        return "redirect:/posts/" + dbPost.getId();
     }
 
     @PostMapping("/posts/{id}/delete")
     public String deletePost(@PathVariable long id){
         postsDao.deleteById(id);
-        return "posts/index";
+        return "redirect:/posts/index";
     }
 }
