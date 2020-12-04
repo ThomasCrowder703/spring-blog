@@ -63,4 +63,5 @@ public class Posts {
     public void setOwner(User owner){
         this.owner = owner;
     }
+
 }

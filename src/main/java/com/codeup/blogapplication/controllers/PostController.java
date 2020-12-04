@@ -54,7 +54,7 @@ public class PostController {
         post.setOwner(user);
         Posts dbPost = postsDao.save(post);
 
-        return "redirect:/posts/" + dbPost.getId();
+        return "/posts/" + dbPost.getId();
     }
 
     @GetMapping("/posts/{id}/edit")
@@ -75,12 +75,12 @@ public class PostController {
         dbPost.setBody(body);
         postsDao.save(dbPost);
 
-        return "redirect: /posts/" + dbPost.getId();
+        return "/posts/" + dbPost.getId();
     }
 
     @PostMapping("/posts/{id}/delete")
     public String deletePost(@PathVariable long id){
         postsDao.deleteById(id);
-        return "redirect:/index";
+        return "posts/index";
     }
 }
