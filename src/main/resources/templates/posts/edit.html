@@ -9,16 +9,17 @@
 <nav th:include="partials/partials.html :: navbar"></nav>
 
 <main class="container">
-    <form th:action="@{/posts/{id}/edit(id=${post.id})}" th:method="POST">
+    <form th:action="@{'/posts/' + ${post.id} + '/edit'}" th:method="POST" th:object="${post}">
         Title:
-        <input name="title" id="name-ipt" th:value="${post.title}">
+        <input name="title" id="name-ipt" th:field="*{title}">
         <br />
         Body:
-        <input name="body" id="desc-ipt" th:value="${post.body}">
+        <input name="body" id="desc-ipt" th:field="*{body}">
         <br />
         <input type="submit">
 
-        <form th:action="@{/posts/{id}/delete(id=${post.getId()})}" th:method="POST">
+
+        <form th:action="@{|/posts/${post.id}/delete|}" th:method="POST">
             <button id="">Delete</button>
         </form>
     </form>

@@ -4,6 +4,7 @@ import com.codeup.blogapplication.models.Posts;
 import com.codeup.blogapplication.models.User;
 import com.codeup.blogapplication.repos.PostsRepository;
 import com.codeup.blogapplication.repos.UserRepository;
+import com.codeup.blogapplication.services.EmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +14,14 @@ import java.util.ArrayList;
 @Controller
 public class PostController {
 
+    private final EmailService emailService;
     private final PostsRepository postsDao;
     private final UserRepository userDao;
 
-    public PostController(PostsRepository postsDao, UserRepository userDao){
+    public PostController(PostsRepository postsDao, UserRepository userDao, EmailService emailService){
         this.postsDao = postsDao;
         this.userDao = userDao;
+        this.emailService = emailService;
     }
 
 
@@ -53,6 +56,7 @@ public class PostController {
         User user = userDao.getOne(1L);
         postToBeSaved.setOwner(user);
         Posts dbPost = postsDao.save(postToBeSaved);
+        emailService.prepareAndSend(dbPost,"Post confirm","A post has been made"); //pass in the created post
         return "redirect:/posts/index";
     }
 
@@ -63,18 +67,14 @@ public class PostController {
     }
 
     @PostMapping("/posts/{id}/edit")
-    public String editPost(
-            @PathVariable long id,
-            @RequestParam(name = "title") String title,
-            @RequestParam(name = "body") String body
-    ){
-        Posts dbPost = postsDao.getOne(id);
-        dbPost.setTitle(title);
-        dbPost.setBody(body);
-        postsDao.save(dbPost);
-
-        return "redirect:/posts/" + dbPost.getId();
+    public String editPost(@ModelAttribute Posts postToBeUpdated){
+        User user = userDao.getOne(1L); //a user obj coming from a session
+        postToBeUpdated.setOwner(user);
+        postsDao.save(postToBeUpdated);
+        return "redirect:/posts/index";
     }
+
+
 
     @PostMapping("/posts/{id}/delete")
     public String deletePost(@PathVariable long id){
