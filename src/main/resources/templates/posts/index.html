@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -8,9 +8,10 @@
 <body>
 <nav th:include="partials/partials.html :: navbar"></nav>
 
+<main class="row justify-content-center">
 <div class="card-deck">
     <div th:each="post : ${posts}">
-        <div class="card">
+        <div class="card" style="width: 20rem;">
             <img class="card-img-top" src="..." alt="Card image cap">
             <div class="card-body">
                 <h3 th:text="${post.title}"></h3>
@@ -21,6 +22,15 @@
         </div>
     </div>
 </div>
+
+    <div sec:authorize="isAuthenticated()">
+        This content is only shown to authenticated users.
+
+        User ID: <span th:text="${#authentication.principal.id}"/>
+        Username: <span th:text="${#authentication.principal.username}"/>
+        Email: <span th:text="${#authentication.principal.email}"/>
+    </div>
+</main>
 
 <div th:include="partials/partials.html :: scripts"></div>
 </body>
