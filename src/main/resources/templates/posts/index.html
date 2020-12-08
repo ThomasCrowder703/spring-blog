@@ -8,7 +8,8 @@
 <body>
 <nav th:include="partials/partials.html :: navbar"></nav>
 
-<main class="row justify-content-center">
+<h2>Current Posts</h2>
+
 <div class="card-deck">
     <div th:each="post : ${posts}">
         <div class="card" style="width: 20rem;">
@@ -30,7 +31,7 @@
         Username: <span th:text="${#authentication.principal.username}"/>
         Email: <span th:text="${#authentication.principal.email}"/>
     </div>
-</main>
+
 
 <div th:include="partials/partials.html :: scripts"></div>
 </body>
